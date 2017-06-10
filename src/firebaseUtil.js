@@ -3,6 +3,7 @@ import $ from "jquery";
 
 var user = JSON.parse(localStorage.getItem("user"));
 var token = localStorage.getItem("token");
+var database = firebase.database();
 
 var config = {
     apiKey: "AIzaSyB4sGO9iLFVYPNqSiG15KWnSuCQvOj2icY",
@@ -34,9 +35,17 @@ var authenticate = function() {
         var provider = new firebase.auth.GoogleAuthProvider();
         //provider.addScope('https://www.googleapis.com/auth/plus.login');
         firebase.auth().signInWithRedirect(provider).then(function(result) {
-            localStorage.setItem("user", JSON.stringigy(result.user));
+            localStorage.setItem("user", JSON.stringify(result.user));
         });
     }
+};
+
+var writeInitialUser = function() {
+    database.ref('users/' + user.uid).set({
+        name: user.displayName,
+        email: user.email,
+        photoUrl: user.photoUrl
+    });
 };
 
 var firebaseUtil = {
@@ -48,11 +57,12 @@ var firebaseUtil = {
     },
     saveOcdItem: function(ocdItem) {
         return $.ajax({
-            url: "https://ocdtherapy-f7706.firebaseio.com/users/" + user.uid + "/ocditems.json?access_token="+token,
+            url: "https://ocdtherapy-f7706.firebaseio.com/users/" + user.uid + "/ocditems.json",
             data: JSON.stringify(ocdItem),
             type: "POST",
             dataType: 'json',
             processData: false,
+            beforeSend: function(xhr) {xhr.setRequestHeader('Authorization', 'Bearer ' + token)},
             contentType: "application/json"
         });
     }

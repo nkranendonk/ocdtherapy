@@ -1,0 +1,20 @@
+{
+  "name": "ocdtherapy",
+  "version": "0.1.0",
+  "description": "Ocd therapy application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "firebase": "^4.1.2",
+    "firebase-auth": "^0.1.2",
+    "jquery": "^3.2.1"
+  },
+  "author": "Nate Kranendonk & Colby Barton",
+  "devDependencies": {
+    "webpack": "^2.6.1",
+    "webpack-dev-server": "^2.4.5"
+  }
+}
